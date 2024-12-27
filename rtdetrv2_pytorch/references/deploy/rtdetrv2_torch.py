@@ -1,6 +1,9 @@
 """Copyright(c) 2023 lyuwenyu. All Rights Reserved.
 """
 
+import sys
+sys.path.append('./')
+
 import torch
 import torch.nn as nn 
 import torchvision.transforms as T
@@ -24,7 +27,7 @@ def draw(images, labels, boxes, scores, thrh = 0.6):
             draw.rectangle(list(b), outline='red',)
             draw.text((b[0], b[1]), text=f"{lab[j].item()} {round(scrs[j].item(),2)}", fill='blue', )
 
-        im.save(f'results_{i}.jpg')
+        im.save(f'output/results_{i}.jpg')
 
 
 def main(args, ):

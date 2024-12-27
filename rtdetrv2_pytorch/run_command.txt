@@ -1,0 +1,3 @@
+
+
+python references/deploy/rtdetrv2_torch.py -c configs/rtdetrv2/rtdetrv2_r50vd_m_7x_coco.yml -r ./rtdetrv2_r50vd_m_7x_coco_ema.pth --im-file=dataset/dog.jpg --device=cuda:0
