@@ -29,7 +29,7 @@ def draw(images, labels, boxes, scores, pred_type, fps, thrh = 0.6):
 
         for j,b in enumerate(box):
             lab_name = deployment_config.CLASS_NAME[lab[j].item()]
-            if lab_name == pred_type:
+            if lab_name in pred_type:
                 draw.rectangle(list(b), outline='red', width=2)
                 draw.text((b[0], b[1]), text=f"{lab_name} {round(scrs[j].item(),2)}", fill='blue', )
 
@@ -86,7 +86,12 @@ def main(args, ):
     h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = cap.get(cv2.CAP_PROP_FPS)
 
-    save_path = f'output/{os.path.basename(args.vid_file)}'
+    if 'rtsp' in args.vid_file:
+        save_path = f'output/{args.stream_name}.mp4'
+        w, h = 1280, 720
+    else:
+        save_path = f'output/{os.path.basename(args.vid_file)}'
+    
     vid_writer = cv2.VideoWriter(
         save_path, cv2.VideoWriter_fourcc(*"mp4v"),
         fps, (int(w), int(h)))
@@ -98,6 +103,7 @@ def main(args, ):
         ret_val, frame = cap.read()
         if ret_val:
             # image preprocessing
+            frame = cv2.resize(frame, (w, h))
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             im_pil = Image.fromarray(frame)
 
@@ -123,8 +129,8 @@ def main(args, ):
             result_frame = draw([im_pil], labels, boxes, scores, pred_type=args.pred_type, fps=fps)
             vid_writer.write(result_frame)
 
-            cv2.namedWindow("DAMO-YOLO", cv2.WINDOW_NORMAL)
-            cv2.imshow("DAMO-YOLO", result_frame)
+            cv2.namedWindow("RT-DETR", cv2.WINDOW_NORMAL)
+            cv2.imshow("RT-DETR", result_frame)
             ch = cv2.waitKey(1)
             if ch == 27 or ch == ord("q") or ch == ord("Q"):
                 vid_writer.release()
@@ -134,6 +140,8 @@ def main(args, ):
             vid_writer.release()
             break
 
+    cap.release()
+    cv2.destroyAllWindows()
 
 if __name__ == '__main__':
     import argparse
@@ -142,6 +150,7 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--resume', type=str, )
     parser.add_argument('-f', '--vid-file', type=str, )
     parser.add_argument('-d', '--device', type=str, default='cpu')
-    parser.add_argument('-t', '--pred-type', type=str, default='car')
+    parser.add_argument('-t', '--pred-type', type=str, nargs='+', default=['car'])
+    parser.add_argument('-o', '--stream-name', type=str, default='')
     args = parser.parse_args()
     main(args)
