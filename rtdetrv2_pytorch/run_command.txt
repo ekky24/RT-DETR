@@ -1,3 +1,6 @@
 
-
+# IMAGE
 python references/deploy/rtdetrv2_torch.py -c configs/rtdetrv2/rtdetrv2_r50vd_m_7x_coco.yml -r ./rtdetrv2_r50vd_m_7x_coco_ema.pth --im-file=dataset/dog.jpg --device=cuda:0
+
+# VIDEO
+python references/deploy/rtdetrv2_torch_vid.py -c configs/rtdetrv2/rtdetrv2_r50vd_m_7x_coco.yml -r ./rtdetrv2_r50vd_m_7x_coco_ema.pth --vid-file=dataset/toilet.mp4 --device=cuda:0 --pred-type car

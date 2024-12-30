@@ -12,6 +12,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 from src.core import YAMLConfig
+import deployment_config
 
 
 def draw(images, labels, boxes, scores, thrh = 0.6):
@@ -24,8 +25,10 @@ def draw(images, labels, boxes, scores, thrh = 0.6):
         scrs = scores[i][scr > thrh]
 
         for j,b in enumerate(box):
-            draw.rectangle(list(b), outline='red',)
-            draw.text((b[0], b[1]), text=f"{lab[j].item()} {round(scrs[j].item(),2)}", fill='blue', )
+            lab_name = deployment_config.CLASS_NAME[lab[j].item()]
+
+            draw.rectangle(list(b), outline='red', width=2)
+            draw.text((b[0], b[1]), text=f"{lab_name} {round(scrs[j].item(),2)}", fill='blue', )
 
         im.save(f'output/results_{i}.jpg')
 
