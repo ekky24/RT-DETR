@@ -4,8 +4,10 @@ python references/deploy/rtdetrv2_torch.py -c configs/rtdetrv2/rtdetrv2_r50vd_m_
 
 # VIDEO
 python references/deploy/rtdetrv2_torch_vid.py -c configs/rtdetrv2/rtdetrv2_r50vd_m_7x_coco.yml -r ./rtdetrv2_r50vd_m_7x_coco_ema.pth --vid-file=dataset/toilet.mp4 --device=cuda:0 --pred-type car truck
+python references/deploy/rtdetrv2_torch_vid.py -c configs/rtdetrv2/rtdetrv2_r50vd_m_7x_coco.yml -r ./rtdetrv2_r50vd_m_7x_coco_ema.pth --vid-file=dataset/toilet.mp4 --device=cuda:0 --pred-type person
 
-# RTSP
+
+# RTSP (CAR)
 # TSU
 python references/deploy/rtdetrv2_torch_vid.py -c configs/rtdetrv2/rtdetrv2_r50vd_m_7x_coco.yml -r ./rtdetrv2_r50vd_m_7x_coco_ema.pth --vid-file=rtsp://admin:CZADKZ@182.0.22.141:554/ch2/main --device=cuda:0 --pred-type car truck --stream-name=tsu
 
@@ -26,3 +28,14 @@ python references/deploy/rtdetrv2_torch_vid.py -c configs/rtdetrv2/rtdetrv2_r50v
 
 # TOILET
 python references/deploy/rtdetrv2_torch_vid.py -c configs/rtdetrv2/rtdetrv2_r50vd_m_7x_coco.yml -r ./rtdetrv2_r50vd_m_7x_coco_ema.pth --vid-file=rtsp://admin:XNJELA@182.0.23.101:554/ch2/main --device=cuda:0 --pred-type car truck --stream-name=toilet
+
+
+# RTSP (PERSON)
+# TOILET
+python references/deploy/rtdetrv2_torch_vid.py -c configs/rtdetrv2/rtdetrv2_r50vd_m_7x_coco.yml -r ./rtdetrv2_r50vd_m_7x_coco_ema.pth --vid-file=rtsp://admin:XNJELA@182.0.23.101:554/ch2/main --device=cuda:0 --pred-type person --stream-name=toilet
+
+# STB
+python references/deploy/rtdetrv2_torch_vid.py -c configs/rtdetrv2/rtdetrv2_r50vd_m_7x_coco.yml -r ./rtdetrv2_r50vd_m_7x_coco_ema.pth --vid-file=rtsp://admin:WGNVQB@182.0.21.189:554/ch2/main --device=cuda:0 --pred-type person --stream-name=stb
+
+# SOL
+python references/deploy/rtdetrv2_torch_vid.py -c configs/rtdetrv2/rtdetrv2_r50vd_m_7x_coco.yml -r ./rtdetrv2_r50vd_m_7x_coco_ema.pth --vid-file=rtsp://admin:WCMWNA@182.0.20.72:554/ch1/main --device=cuda:0 --pred-type person --stream-name=sol
